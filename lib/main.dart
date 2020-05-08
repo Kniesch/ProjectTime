@@ -12,8 +12,12 @@ class ProjectTimeApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'ProjectTime',
-        theme: ThemeData(),
-        darkTheme: ThemeData.dark(),
+        theme: ThemeData(
+        ),
+        darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          indicatorColor: Colors.grey[200],
+        ),
         home: DefaultTabController(
           length: 2,
           child: Scaffold(
