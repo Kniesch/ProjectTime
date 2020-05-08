@@ -140,7 +140,7 @@ class ProjectRecorderState extends State<ProjectRecorder> {
                       width: double.infinity,
                       child: Container(
                         decoration: BoxDecoration(
-                          border: Border.all(),
+                          border: Border.all(color: Theme.of(context).hintColor),
                           borderRadius: new BorderRadius.circular(15.0),
                         ),
                         child: Padding(
