@@ -130,42 +130,45 @@ class ProjectRecorderState extends State<ProjectRecorder> {
 
             )
           ),
-          Stack(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20.0,10.0,20.0,0),
-                child: SizedBox(
-                    width: double.infinity,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(),
-                        borderRadius: new BorderRadius.circular(15.0),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Text(
-                          activeProject.projectName,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 60),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20.0,20.0,20.0,0),
+            child: Stack(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0,10.0,0,0),
+                  child: SizedBox(
+                      width: double.infinity,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: new BorderRadius.circular(15.0),
                         ),
-                      )
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Text(
+                            activeProject.projectName,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 60),
+                          ),
+                        )
+                      ),
                     ),
-                  ),
-              ),
-              SizedBox(
-                child: Container (
-                  color: Theme.of(context).canvasColor,
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(30.0, 2.0, 15.0, 5.0),
-                    child:
-                      Text(
-                        'Active project',
-                        style: TextStyle(fontSize: 14),
-                      )
-                  ), 
                 ),
-              ),
-            ],
+                SizedBox(
+                  child: Container (
+                    color: Theme.of(context).canvasColor,
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(10.0, 2.0, 20.0, 5.0),
+                      child:
+                        Text(
+                          'Active project',
+                          style: TextStyle(fontSize: 14),
+                        )
+                    ), 
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       )
