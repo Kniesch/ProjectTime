@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'projectController.dart';
+import 'projectRecorder.dart';
 
 void main() => runApp(ProjectTimeApp());
 
@@ -11,46 +11,28 @@ class ProjectTimeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ProjectTime',
-      home: DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: AppBar(
-            bottom: TabBar(
-              tabs: [
-                Tab(text: 'Recorder',),
-                Tab(text: 'Analyzer',),
-              ],
+        title: 'ProjectTime',
+        theme: ThemeData(),
+        darkTheme: ThemeData.dark(),
+        home: DefaultTabController(
+          length: 2,
+          child: Scaffold(
+            appBar: AppBar(
+              bottom: TabBar(
+                tabs: [
+                  Tab(text: 'Recorder',),
+                  Tab(text: 'Analyzer',),
+                ],
+              ),
+              title: Text('ProjectTime'),
             ),
-            title: Text('ProjectTime'),
+            body: TabBarView(
+              children: [
+                ProjectRecorder(),
+                Icon(Icons.directions_transit),
+              ]),
           ),
-          body: TabBarView(
-            children: [
-              projectRecorder,
-              Icon(Icons.directions_transit),
-            ]),
         ),
-      ),
     );
   }
-
-  final Widget projectRecorder = Column(
-    verticalDirection: VerticalDirection.up,
-    children: <Widget>[
-      ProjectController(),
-      listSelection,
-    ],
-  );
-
-  static Widget listSelection = Expanded(
-    child: Row(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        Text('List1'),
-        Text('List1'),
-      ],
-    ),
-  );
-
 }
