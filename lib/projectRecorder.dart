@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'iconTextButton.dart';
 
 import 'singletons/activeProject.dart';
+import 'singletons/databaseHelper.dart';
 
 class ProjectRecorder extends StatefulWidget{
   @override
@@ -12,6 +13,8 @@ class ProjectRecorderState extends State<ProjectRecorder> {
   
   final _projectNameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final dbHelper = DatabaseHelper();
+  var activeProject = new ActiveProject();
 
   @override
   void dispose () {
@@ -21,9 +24,14 @@ class ProjectRecorderState extends State<ProjectRecorder> {
     super.dispose();
   }
 
-  void updateActiveProject (String projectName) {
+  void startActiveProject (String projectName) {
     if (_formKey.currentState.validate()) {
-      activeProject.projectName = projectName;
+      setState(() {
+        _projectNameController.text = '';
+        activeProject.projectName = projectName;
+        activeProject.startTime = new DateTime.now().toUtc();
+        dbHelper.insertCurrent(activeProject);
+      });
       FocusScopeNode currentFocus = FocusScope.of(context);
       if (!currentFocus.hasPrimaryFocus) {
         currentFocus.unfocus();
@@ -32,7 +40,18 @@ class ProjectRecorderState extends State<ProjectRecorder> {
   }
 
   void stopActiveProject () {
-    activeProject.projectName = '';
+    setState(() { 
+        activeProject.stopTime = new DateTime.now().toUtc();
+        if (activeProject.startTime != null) {
+          activeProject.time = activeProject.startTime.difference(activeProject.stopTime);
+        }
+        dbHelper.removeCurrent();
+        //TODO sent to database
+        /*activeProject.projectName = '';
+        activeProject.startTime = null;
+        activeProject.stopTime = null;
+        activeProject.time = null;*/
+      });
   }
 
   Widget build(BuildContext context) {
@@ -76,16 +95,17 @@ class ProjectRecorderState extends State<ProjectRecorder> {
                           textAlign: TextAlign.center,
                           textInputAction: TextInputAction.done,
                           validator: (value) {
-                            if (value.isEmpty && activeProject.projectName.isEmpty) {
+                            if (value.isEmpty) {
                               return 'Please enter your project name!';
                             }
-                            if (value.toString() == activeProject.projectName) {
+                            //if (value.toString() == activeProject.projectName) {
+                            if (activeProject.projectName != '') {
                               return 'Project is already started!';
                             }
                             return null;
                           },
                           onFieldSubmitted: (value) {
-                            updateActiveProject(value);                 
+                            startActiveProject(value);                 
                           },
                           style: TextStyle(fontSize: 20),
                         ),
@@ -101,7 +121,7 @@ class ProjectRecorderState extends State<ProjectRecorder> {
                         Expanded(
                           child: IconTextButton(
                             onPressed: () {
-                              updateActiveProject(_projectNameController.text);
+                              startActiveProject(_projectNameController.text);
                             },
                             color: color,
                             icon: Icons.play_arrow,
@@ -145,11 +165,26 @@ class ProjectRecorderState extends State<ProjectRecorder> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(10),
-                          child: Text(
-                            activeProject.projectName,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 60),
-                          ),
+                          child: new FutureBuilder<ActiveProject>(
+                            future: dbHelper.getCurrent(),
+                            builder: (BuildContext context, AsyncSnapshot snapshot) {
+                                if (snapshot.hasData) {
+                                  activeProject = snapshot.data;
+                                  return Text(
+                                    activeProject.projectName,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(fontSize: 60),
+                                  );
+                                } else {
+                                  return Text(
+                                    'LOADING...',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(fontSize: 60),
+                                  );
+                                }                              
+                            }
+                          )
+
                         )
                       ),
                     ),
@@ -171,7 +206,7 @@ class ProjectRecorderState extends State<ProjectRecorder> {
             ),
           ),
         ],
-      )
+      ),
     );
   }
 }
