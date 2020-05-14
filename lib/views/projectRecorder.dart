@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../widgets/iconTextButton.dart';
+import 'package:projecttime/widgets/iconTextButton.dart';
 
-import '../models/activeProject.dart';
-import '../singletons/databaseHelper.dart';
+import 'package:projecttime/models/activeProject.dart';
+import 'package:projecttime/singletons/databaseHelper.dart';
 
-class ProjectRecorder extends StatefulWidget{
+class ProjectRecorder extends StatefulWidget {
   @override
   ProjectRecorderState createState() => ProjectRecorderState();
 }
@@ -68,7 +68,7 @@ class ProjectRecorderState extends State<ProjectRecorder> {
           Form(
             key: _formKey,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: <Widget>[
                   Row(
@@ -109,35 +109,34 @@ class ProjectRecorderState extends State<ProjectRecorder> {
                       ),
                     ],
                   ),
-
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Expanded(
-                          child: IconTextButton(
-                            onPressed: () {
-                              startActiveProject(_projectNameController.text);
-                            },
-                            color: color,
-                            icon: Icons.play_arrow,
-                            label: 'START',
-                          ),
+                  Container(
+                    height: 16.0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Expanded(
+                        child: IconTextButton(
+                          onPressed: () {
+                            startActiveProject(_projectNameController.text);
+                          },
+                          color: color,
+                          icon: Icons.play_arrow,
+                          label: 'START',
                         ),
-                        Expanded(
-                          child: IconTextButton(
-                            onPressed: () {
-                              stopActiveProject();
-                            },
-                            color: color,
-                            icon: Icons.stop,
-                            label: 'STOP',
-                          ),
+                      ),
+                      Expanded(
+                        child: IconTextButton(
+                          onPressed: () {
+                            stopActiveProject();
+                          },
+                          color: color,
+                          icon: Icons.stop,
+                          label: 'STOP',
                         ),
-                      ],
-                    ),
-                  )
+                      ),
+                    ],
+                  ),
                 ]
               ),
             ),
@@ -148,7 +147,7 @@ class ProjectRecorderState extends State<ProjectRecorder> {
             )
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(20.0,20.0,20.0,0),
+            padding: const EdgeInsets.all(16.0),
             child: Stack(
               children: <Widget>[
                 Padding(
@@ -173,15 +172,18 @@ class ProjectRecorderState extends State<ProjectRecorder> {
                                     style: TextStyle(fontSize: 60),
                                   );
                                 } else {
-                                  return Text(
-                                    'LOADING...',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 60),
+                                  return Stack(
+                                    children: <Widget>[
+                                      CircularProgressIndicator(),
+                                      Text(
+                                        '',
+                                        style: TextStyle(fontSize: 60),
+                                      ),
+                                    ],
                                   );
                                 }                              
                             }
                           )
-
                         )
                       ),
                     ),
