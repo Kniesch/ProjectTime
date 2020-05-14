@@ -1,7 +1,8 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'dart:async';
-import '../models/activeProject.dart';
+
+import 'package:projecttime/models/activeProject.dart';
 
 class DatabaseHelper {
 
@@ -73,7 +74,7 @@ class DatabaseHelper {
 
   Future<List<Map<String, dynamic>>> getTasksMap() async {
     Database db = await this.database;
-    return await db.query('TASKS');
+    return await db.query('TASKS', orderBy: 'STARTTIME DESC');
   }
 
   Future<List<ActiveProject>> getTasks() async {
