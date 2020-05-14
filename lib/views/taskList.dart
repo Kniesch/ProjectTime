@@ -10,6 +10,7 @@ class TaskList extends StatefulWidget {
 
 class TaskListState extends State<TaskList> {
   final dbHelper = DatabaseHelper();
+  var _itemCount = 0;
   final _tasks = List<ActiveProject>();
   final _tasksDisplay = <ActiveProject>[];
 
@@ -18,9 +19,12 @@ class TaskListState extends State<TaskList> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           _tasks.addAll(snapshot.data);
+          if (_tasks.length>=1) {
+            _itemCount = (_tasks.length*2)-1;
+          }
           return ListView.builder(
             padding: const EdgeInsets.all(16.0),
-            itemCount: snapshot.data.length > 0 ? 0 : (snapshot.data.length*2)-1,
+            itemCount: _itemCount,
             itemBuilder: (context, i) {
               if (i.isOdd) {
                 return Divider();
