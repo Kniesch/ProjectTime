@@ -3,7 +3,8 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'views/projectRecorder.dart';
+import 'package:projecttime/views/projectRecorder.dart';
+import 'package:projecttime/views/taskList.dart';
 
 void main() => runApp(ProjectTimeApp());
 
@@ -25,7 +26,7 @@ class ProjectTimeApp extends StatelessWidget {
               bottom: TabBar(
                 tabs: [
                   Tab(text: 'Recorder',),
-                  Tab(text: 'Analyzer',),
+                  Tab(text: 'List',),
                 ],
               ),
               title: Text('ProjectTime'),
@@ -33,7 +34,7 @@ class ProjectTimeApp extends StatelessWidget {
             body: TabBarView(
               children: [
                 ProjectRecorder(),
-                Icon(Icons.directions_transit),
+                TaskList(),
               ]),
           ),
         ),
