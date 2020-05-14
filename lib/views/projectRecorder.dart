@@ -174,7 +174,10 @@ class ProjectRecorderState extends State<ProjectRecorder> {
                                 } else {
                                   return Stack(
                                     children: <Widget>[
-                                      CircularProgressIndicator(),
+                                      Align(
+                                        alignment: Alignment.center,
+                                        child: CircularProgressIndicator(),
+                                      ),
                                       Text(
                                         '',
                                         style: TextStyle(fontSize: 60),
