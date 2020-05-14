@@ -72,13 +72,11 @@ class ActiveProject {
       this._stopTime = DateTime.parse(stop);
     }
     if (this._startTime != null && this._stopTime != null) {
-      this._time = this._startTime.difference(this._stopTime);
+      this._time = this._stopTime.difference(this._startTime);
     }
   }
 
-  ActiveProject({id, name, start, stop, time}) {
-    
-  }
+  ActiveProject({id, name, start, stop, time});
 }
 
 //final activeProject = ActiveProject();

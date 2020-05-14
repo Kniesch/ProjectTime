@@ -1,7 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'dart:async';
-import 'activeProject.dart';
+import '../models/activeProject.dart';
 
 class DatabaseHelper {
 
@@ -64,6 +64,39 @@ class DatabaseHelper {
   Future<int> removeCurrent() async {
     Database db = await this.database;
     return await db.delete('CURRENTTASK');
+  }
+
+  Future<int> insertTask(ActiveProject current) async {
+    Database db = await this.database;
+    return await db.insert('TASKS', current.toMap());
+  }
+
+  Future<List<Map<String, dynamic>>> getTasksMap() async {
+    Database db = await this.database;
+    return await db.query('TASKS');
+  }
+
+  Future<List<ActiveProject>> getTasks() async {
+    var taskMapList = await getTasksMap();
+    int count = taskMapList.length;
+
+    List<ActiveProject> taskList = List<ActiveProject>();
+
+    for (int i = 0; i < count; i++) {
+      taskList.add(ActiveProject.fromMapObject(taskMapList[i]));
+    }
+
+    return taskList;
+  }
+
+  Future<int> updateTask (ActiveProject task) async {
+    Database db = await this.database;
+    return await db.update('TASKS', task.toMap(), where: 'id = ?', whereArgs: [task.id]);
+  }
+
+  Future<int> removeTask(int id) async {
+    Database db = await this.database;
+    return await db.delete('TASKS', where: 'id = ?', whereArgs: [id]);
   }
 
   factory DatabaseHelper() {

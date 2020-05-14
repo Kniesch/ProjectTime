@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'iconTextButton.dart';
+import '../widgets/iconTextButton.dart';
 
-import 'singletons/activeProject.dart';
-import 'singletons/databaseHelper.dart';
+import '../models/activeProject.dart';
+import '../singletons/databaseHelper.dart';
 
 class ProjectRecorder extends StatefulWidget{
   @override
@@ -43,14 +43,11 @@ class ProjectRecorderState extends State<ProjectRecorder> {
     setState(() { 
         activeProject.stopTime = new DateTime.now().toUtc();
         if (activeProject.startTime != null) {
-          activeProject.time = activeProject.startTime.difference(activeProject.stopTime);
+          activeProject.time = activeProject.stopTime.difference(activeProject.startTime);
         }
         dbHelper.removeCurrent();
-        //TODO sent to database
-        /*activeProject.projectName = '';
-        activeProject.startTime = null;
-        activeProject.stopTime = null;
-        activeProject.time = null;*/
+        
+        dbHelper.insertTask(activeProject);
       });
   }
 

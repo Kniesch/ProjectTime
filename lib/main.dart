@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'projectRecorder.dart';
+import 'views/projectRecorder.dart';
 
 void main() => runApp(ProjectTimeApp());
 
